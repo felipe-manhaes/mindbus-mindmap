@@ -1,11 +1,7 @@
-# mindbus-mindmap
-Mindbus is a SaaS mind-mapping platform for business teams. It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
-
 # Mindbus
 ## Open Mindmap for Business
 
-Mindbus is a SaaS mind-mapping platform focused on **business thinking, idea structuring, and organizational visibility**.  
-It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
+Mindbus is a SaaS mind-mapping platform focused on **business thinking, idea structuring, and organizational visibility**. It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
 
 ---
 
