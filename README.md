@@ -1,11 +1,7 @@
-# mindbus-mindmap
-Mindbus is a SaaS mind-mapping platform for business teams. It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
-
 # Mindbus
 ## Open Mindmap for Business
 
-Mindbus is a SaaS mind-mapping platform focused on **business thinking, idea structuring, and organizational visibility**.  
-It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
+Mindbus is a SaaS mind-mapping platform focused on **business thinking, idea structuring, and organizational visibility**. It lets users quickly create, drag, connect, and organize ideas on an interactive canvas, with a roadmap for secure access control that gives executives full visibility and managers structured oversight across teams.
 
 ---
 
@@ -13,8 +9,9 @@ It lets users quickly create, drag, connect, and organize ideas on an interactiv
 - [Project Overview](#project-overview)
 - [Core Concept](#core-concept)
 - [Roadmap](#roadmap)
-- [Phase 1 – Interactive Canvas & CRUD](#phase-1--interactive-canvas--crud)
-- [Phase 2 – Authentication & Role-Based Access Control](#phase-2--authentication--role-based-access-control)
+- [Phase 1 – CRUD](#phase-1--crud)
+- [Phase 2 – Interactive Canvas & CRUD](#phase-2--interactive-canvas--crud)
+- [Phase 3 – Authentication & Role-Based Access Control](#phase-3--authentication--role-based-access-control)
 - [API Design Philosophy](#api-design-philosophy)
 - [Tech Stack](#tech-stack)
 - [Architectural Decisions](#architectural-decisions)
@@ -49,16 +46,19 @@ In later phases, these mindmaps become **organizational assets** governed by rol
 
 ## Roadmap
 
-Mindbus is developed in **two clearly separated phases**:
+Mindbus is developed in **three clearly separated phases**:
 
 ### Phase 1
-- Interactive canvas
-- Drag & drop mindmap creation
 - CRUD operations
 - Persistent storage
 - No authentication
 
 ### Phase 2
+- Interactive canvas
+- Drag & drop mindmap creation
+- CRUD operations
+
+### Phase 3
 - JWT authentication
 - Role-based access control (RBAC)
 - Organizational hierarchy
@@ -68,38 +68,17 @@ This separation ensures clarity, correctness, and scalability.
 
 ---
 
-## Phase 1 – Interactive Canvas & CRUD
+## Phase 1 – CRUD
 
 ### Goals
 
-Phase 1 focuses on delivering the **core product experience**:
+Phase 1 focuses on delivering the **core CRUD functionality**:
 
-- Fast and intuitive idea creation
-- Smooth canvas interactions
 - Clean data modeling
 - Reliable persistence
 - Clear frontend/backend separation
 
 Authentication and permissions are intentionally excluded at this stage.
-
----
-
-### Canvas & Interaction Layer
-
-The frontend provides an **infinite canvas experience** similar to professional whiteboard tools.
-
-Core interactions:
-- Drag & drop nodes
-- Pan the canvas
-- Zoom in / zoom out
-- Connect nodes visually
-- Select, edit, and delete nodes
-
-The canvas layer is optimized for:
-- Spatial data
-- Large graphs
-- Responsive interaction
-- Clean state management
 
 ---
 
@@ -156,7 +135,40 @@ Authorization is intentionally deferred to Phase 2.
 
 ---
 
-## Phase 2 – Authentication & Role-Based Access Control
+## Phase 2 – Interactive Canvas & CRUD
+
+### Goals
+
+Phase 2 focuses on delivering the **core product experience**:
+
+- Fast and intuitive idea creation
+- Smooth canvas interactions
+- Clear frontend/backend separation
+
+Authentication and permissions are intentionally excluded at this stage.
+
+---
+
+### Canvas & Interaction Layer
+
+The frontend provides an **infinite canvas experience** similar to professional whiteboard tools.
+
+Core interactions:
+- Drag & drop nodes
+- Pan the canvas
+- Zoom in / zoom out
+- Connect nodes visually
+- Select, edit, and delete nodes
+
+The canvas layer is optimized for:
+- Spatial data
+- Large graphs
+- Responsive interaction
+- Clean state management
+
+---
+
+## Phase 3 – Authentication & Role-Based Access Control
 
 ### Authentication
 
@@ -244,7 +256,49 @@ The API is built to support:
 - **API-first design**: scalability and extensibility
 
 ---
+## Part 01 – Core Architecture and Data Flow
 
+This part describes a simple full-stack application with explicit user-controlled persistence.
+
+### Components
+
+**Frontend**: Allows users to create, edit, and delete notes.
+
+**Zustand**: Stores the current in-memory state of notes so the UI updates immediately while the user is editing.
+
+**Backend API**: Receives requests from the frontend and persists data.
+
+**PostgreSQL**: Stores the saved notes and acts as the single source of truth.
+
+### Data Flow
+
+When the application loads, data is fetched from PostgreSQL and loaded into Zustand.
+
+While the user edits a note, all changes exist only in Zustand.
+
+No data is persisted automatically.
+
+The user must explicitly click a "Save" action.
+
+Only after this action are changes sent to the backend and written to PostgreSQL.
+
+Zustand represents temporary, replaceable state.
+
+PostgreSQL represents persistent, authoritative state.
+
+### Scope of Part 01
+
+This part includes:
+
+- Explicit save action
+
+- Basic CRUD operations
+
+- Clear separation between in-memory state and persisted state
+
+This section must describe only the current behavior, without assumptions about future improvements.
+
+---
 ## Future Extensions
 
 - Real-time collaboration
