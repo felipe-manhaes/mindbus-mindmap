@@ -5,6 +5,6 @@ export type NoteCardProps = {
 
 export function NoteCard(title:{title:string,h2?:number}) {
    return (
-      <div>{title.title} is great!_0{title.h2}</div>
+      <div>- {title.title}_0{title.h2}</div>
    )
 }
