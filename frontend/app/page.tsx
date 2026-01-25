@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { NoteCardProps } from '@/components/NoteCard';
 import Image from "next/image";
 import { NoteCard } from "@/components/NoteCard";
+import {ZustandTest} from "@/components/ZustandTest";
 
 export default function Home() {
   const [notes, setNotes] = useState<NoteCardProps[] >([]);
@@ -16,6 +17,7 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-4 py-10  bg-white dark:bg-gray-600 sm:items-center">
+        <ZustandTest />
        <h1 className="border-2 border-red-500">Hello World</h1>
        <div className="flex flex-row items-center gap-2 justify-center">
        <input type="text" name="note" id="note" placeholder="Enter your note" 
