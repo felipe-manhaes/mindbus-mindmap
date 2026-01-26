@@ -4,7 +4,7 @@
 import { useCounterStore } from '@/providers/counter-store-provider'
 
 export const ZustandTest = () => {
-  const { count, incrementCount, decrementCount } = useCounterStore(
+  const { count, incrementCount, decrementCount,thirdCount } = useCounterStore(
     (state) => state,
   )
 
@@ -13,10 +13,13 @@ export const ZustandTest = () => {
       Count: {count}
       <hr />
       <button type="button" onClick={incrementCount}>
-        Increment Count
+        ||Clean
       </button>
       <button type="button" onClick={decrementCount}>
-        Decrement Count
+        ||Add AA
+      </button>
+      <button type="button" onClick={thirdCount}>
+        ||Add BB||
       </button>
     </div>
   )
