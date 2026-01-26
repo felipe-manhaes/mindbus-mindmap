@@ -1,20 +1,22 @@
-// src/stores/counter-store.ts
+// src/stores/lister-store.ts
+import { NoteCardProps } from '@/components/NoteCard'
 import { createStore } from 'zustand/vanilla'
 
 export type CounterState = {
-  count: string
+  list: NoteCardProps[]
+  inputText: string
 }
 
 export type CounterActions = {
-  decrementCount: () => void
-  incrementCount: () => void
-  thirdCount: () => void
+  setListUpdate: (input: string) => void
+  setInputText: (input: string) => void
 }
 
 export type CounterStore = CounterState & CounterActions
 
 export const defaultInitState: CounterState = {
-  count: '',
+  list: [],
+  inputText: ''
 }
 
 export const createCounterStore = (
@@ -23,9 +25,7 @@ export const createCounterStore = (
   return createStore<CounterStore>()(
     (set) => ({
       ...initState,
-      decrementCount: () => set((state) => ({ count: state.count + '_aa' })),
-      incrementCount: () => set((state) => ({ count: state.count.replace(/_/g, '') })),
-      thirdCount: () => set((state) => ({ count: state.count + '_bb' })),
-
+      setListUpdate: (input) => set((state) => ({ list: [...state.list, { title: input }] })),
+      setInputText: (input) => set(() => ({ inputText: input }))
     }))
-}
+}   
