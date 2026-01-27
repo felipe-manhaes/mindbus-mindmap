@@ -26,15 +26,11 @@ export default function Home() {
         </div>
         <div>
           Count:   {list.map((item, i) => (
-            <NoteCard key={i} title={item.title} h2={i} />
+            <NoteCard key={i} id={i} title={item.title} />
           ))}
           <hr />
-
         </div>
-
-
         <p className='text-amber-300'>{JSON.stringify(list)}</p>
-
       </main>
     </div>
   );

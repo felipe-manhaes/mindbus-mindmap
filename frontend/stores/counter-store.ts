@@ -10,6 +10,7 @@ export type CounterState = {
 export type CounterActions = {
   setListUpdate: (input: string) => void
   setInputText: (input: string) => void
+  deleteNote: (index:number) => void
 }
 
 export type CounterStore = CounterState & CounterActions
@@ -26,6 +27,9 @@ export const createCounterStore = (
     (set) => ({
       ...initState,
       setListUpdate: (input) => set((state) => ({ list: [...state.list, { title: input }] })),
-      setInputText: (input) => set(() => ({ inputText: input }))
+      setInputText: (input) => set(() => ({ inputText: input })),
+      deleteNote: (index) => set((state) => ({ 
+        list: state.list.filter((_, i) => i !== index) 
+      }))
     }))
-}   
+  }
