@@ -7,16 +7,12 @@ export type NoteCardProps = {
 }
 
 export function NoteCard(title: { title: string, id: number }) {
-   const { deleteNote } = useCounterStore(
+   const { deleteNote, updateNote, inputText } = useCounterStore(
       (state) => state,
-    )
-
-   function handleDelete(id:number) {
-deleteNote(id)
-   }
+   )
 
    return (
-      <div><span>- {title.title}_0{title.id}</span> <span className="cursor-pointer"
-         onClick={() => handleDelete(title.id)}>[x]</span></div>
+      <div><span onClick={() => updateNote(title.id, inputText)}>- {title.title}_0{title.id}</span> <span className="cursor-pointer"
+         onClick={() => deleteNote(title.id)}>[x]</span></div>
    )
 }

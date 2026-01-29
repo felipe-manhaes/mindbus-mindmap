@@ -10,6 +10,8 @@ export default function Home() {
 
   function handleAddNote() {
     setListUpdate(inputText)
+    setInputText('')
+
   }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputText(e.target.value)
@@ -20,7 +22,7 @@ export default function Home() {
         <h1 className="border-2 border-red-500">State Notepad</h1>
         <div className="flex flex-row items-center gap-2 justify-center">
           <input type="text" name="note" id="note" placeholder="Enter your note"
-            className="border-2 border-red-500" onChange={handleChange}
+            className="border-2 border-red-500" onChange={handleChange} value={inputText ?? ''}
           />
           <button className="border-2 border-gray-800 cursor-pointer" onClick={handleAddNote}>Add Note</button>
         </div>
