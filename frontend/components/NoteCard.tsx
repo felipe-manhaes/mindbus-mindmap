@@ -1,10 +1,7 @@
 import { useCounterStore } from '@/providers/counter-store-provider';
+import { NoteCardProps } from '@/app/types'
 
 
-export type NoteCardProps = {
-   title: string;
-   id?: number;
-}
 
 export function NoteCard(title: { title: string, id: number }) {
    const { deleteNote, updateNote, inputText } = useCounterStore(

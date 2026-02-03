@@ -1,7 +1,8 @@
 'use client';
-import { NoteCard, NoteCardProps } from '@/components/NoteCard';
+import { NoteCard } from '@/components/NoteCard';
 import { useCounterStore } from '@/providers/counter-store-provider';
 import { useState } from 'react';
+
 
 export default function Home() {
   const { inputText, list, setListUpdate, setInputText } = useCounterStore(
@@ -9,6 +10,18 @@ export default function Home() {
   )
 
   function handleAddNote() {
+    
+    fetch('http://localhost:3001', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title: inputText }),
+    }).then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+    .catch(error => console.error('Error:', error));
     setListUpdate(inputText)
     setInputText('')
 
