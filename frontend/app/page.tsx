@@ -10,22 +10,27 @@ export default function Home() {
   )
 
   function handleAddNote() {
-    
     fetch('http://localhost:3001', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ title: inputText }),
-    }).then(response => response.json())
-    .then(data => {
-      console.log(data)
+    }).then(response => {
+      if (!response.ok) throw new Error(`Error: ${response.status}`)
+      return response.json()
     })
-    .catch(error => console.error('Error:', error));
-    setListUpdate(inputText)
-    setInputText('')
-
+      .then(data => {
+        console.log(data)
+        setListUpdate(inputText)
+        setInputText('')
+      })
+      .catch(error => {
+        const err = error instanceof Error ? error : new Error(JSON.stringify(error))
+        console.error(err)
+      });
   }
+  
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputText(e.target.value)
   }
