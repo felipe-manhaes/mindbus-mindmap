@@ -12,14 +12,18 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-   res.send('Hello World!')
+   // res.send(JSON.stringify(tempNotes))
+   res.send( JSON.stringify({list:tempNotes}))
+
 })
 
 app.post('/', (req, res) => {
   const title = req.body.title
   console.log(title)
   tempNotes.push({ title: title, id: tempNotes.length + 1 })
-  res.send({message: 'Backend Note viewed successfully: \n' + JSON.stringify(tempNotes)})
+  console.log("After " + title + ": "+ JSON.stringify(tempNotes))
+
+  res.send({message: JSON.stringify(tempNotes)})
 })
 
 app.listen(port, () => {

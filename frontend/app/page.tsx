@@ -1,13 +1,22 @@
 'use client';
 import { NoteCard } from '@/components/NoteCard';
 import { useCounterStore } from '@/providers/counter-store-provider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 export default function Home() {
-  const { inputText, list, setListUpdate, setInputText } = useCounterStore(
+  const { inputText, list, setNewItem, setInputText, setList } = useCounterStore(
     (state) => state,
   )
+
+  useEffect(() => {
+    fetch('http://localhost:3001')
+      .then(res => res.json())
+      .then(json => {
+        setList(json.list)
+      })
+      .catch(err => console.error(err))
+  }, [])
 
   function handleAddNote() {
     fetch('http://localhost:3001', {
@@ -22,7 +31,7 @@ export default function Home() {
     })
       .then(data => {
         console.log(data)
-        setListUpdate(inputText)
+        setNewItem(inputText)
         setInputText('')
       })
       .catch(error => {
@@ -30,7 +39,7 @@ export default function Home() {
         console.error(err)
       });
   }
-  
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputText(e.target.value)
   }

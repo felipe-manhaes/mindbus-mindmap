@@ -1,6 +1,4 @@
 import { useCounterStore } from '@/providers/counter-store-provider';
-import { NoteCardProps } from '@/app/types'
-
 
 
 export function NoteCard(title: { title: string, id: number }) {

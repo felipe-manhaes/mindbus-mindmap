@@ -1,5 +1,5 @@
 // src/stores/lister-store.ts
-import { NoteCardProps } from '@/components/NoteCard'
+import { NoteCardProps } from '@/app/types/index'
 import { createStore } from 'zustand/vanilla'
 
 export type CounterState = {
@@ -8,8 +8,9 @@ export type CounterState = {
 }
 
 export type CounterActions = {
-  setListUpdate: (input: string) => void
+  setNewItem: (input: string) => void
   setInputText: (input: string) => void
+  setList: (input: NoteCardProps[]) => void
   deleteNote: (index: number) => void
   updateNote: (index: number, input: string) => void
 
@@ -28,7 +29,8 @@ export const createCounterStore = (
   return createStore<CounterStore>()(
     (set) => ({
       ...initState,
-      setListUpdate: (input) => set((state) => ({ list: [...state.list, { title: input }] })),
+      setNewItem: (input) => set((state) => ({ list: [...state.list, { title: input }] })),
+      setList: (input: NoteCardProps[]) => set((state) => ({ list: input })),
       setInputText: (input) => set(() => ({ inputText: input })),
       deleteNote: (index) => set((state) => ({
         list: state.list.filter((_, i) => i !== index)
