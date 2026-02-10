@@ -18,6 +18,19 @@ export default function Home() {
       .catch(err => console.error(err))
   }, [])
 
+  function handleDeletenote(id: number) {
+    fetch(`http://localhost:3001/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Error: ${res.status}`)
+        return res.json()
+      })
+      .then(data => setList(data.list))
+      .catch(err => console.error(err))
+
+  }
+
   function handleAddNote() {
     fetch('http://localhost:3001', {
       method: 'POST',
@@ -54,8 +67,9 @@ export default function Home() {
           <button className="border-2 border-gray-800 cursor-pointer" onClick={handleAddNote}>Add Note</button>
         </div>
         <div>
-          Count:   {list.map((item, i) => (
-            <NoteCard key={i} id={i} title={item.title} />
+          Count:{' '}
+          {Array.isArray(list) && list.map((item, i) => (
+            <NoteCard key={i} id={i} title={item.title} onDelete={handleDeletenote} />
           ))}
           <hr />
         </div>

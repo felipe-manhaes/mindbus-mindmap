@@ -1,4 +1,4 @@
-import  express  from 'express'
+import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import type { NoteCardProps } from '../frontend/app/types/index.ts'
@@ -13,17 +13,36 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
    // res.send(JSON.stringify(tempNotes))
-   res.send( JSON.stringify({list:tempNotes}))
+   res.send(JSON.stringify({ list: tempNotes }))
 
 })
 
 app.post('/', (req, res) => {
-  const title = req.body.title
-  console.log(title)
-  tempNotes.push({ title: title, id: tempNotes.length + 1 })
-  console.log("After " + title + ": "+ JSON.stringify(tempNotes))
+   const title = req.body.title
+   let count = tempNotes.length
+   console.log(title)
+   for (let i = 0; i < count; i++) {
+      const test = !tempNotes.some(item => item.id === count)
+      console.log(test)
+      if (test) {
+         break
+      } else { count++ }
+   }
+   tempNotes.push({ title: title, id: count })
+   console.log("After " + title + ": " + JSON.stringify(tempNotes))
 
-  res.send({message: JSON.stringify(tempNotes)})
+   res.send({ message: JSON.stringify(tempNotes) })
+})
+
+app.delete('/:id', (req, res) => {
+   const id = Number(req.params.id)
+   const index = tempNotes.findIndex((n) => n.id === id)
+   if (index === -1) {
+      return res.status(404).json({ error: 'Not found' })
+   }
+   tempNotes.splice(index, 1)
+   console.log("////// tempNotes IS: " + JSON.stringify(tempNotes))
+   res.json({ list: tempNotes })
 })
 
 app.listen(port, () => {
