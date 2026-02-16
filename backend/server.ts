@@ -33,6 +33,17 @@ app.post('/', (req, res) => {
    res.send({ message: JSON.stringify(tempNotes) })
 })
 
+app.put('/:id',(req,res)=>{
+   const id = Number(req.params.id)
+   const index = tempNotes.findIndex((n) => n.id === id)
+   if (index === -1) {
+      return res.status(404).json({ error: 'Not found' })
+   }
+   tempNotes.splice(index,1,{"title":req.body.title,id:tempNotes[index].id})
+   console.log("//PUT//// tempNotes IS: " + JSON.stringify(tempNotes))
+   res.json({ list: tempNotes })
+})
+
 app.delete('/:id', (req, res) => {
    const id = Number(req.params.id)
    const index = tempNotes.findIndex((n) => n.id === id)

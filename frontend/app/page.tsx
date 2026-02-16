@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 
 export default function Home() {
-  const { inputText, list, setNewItem, setInputText, setList } = useCounterStore(
+  const { inputText, list, setNewItem, setInputText, setList, updateNote } = useCounterStore(
     (state) => state,
   )
 
@@ -29,6 +29,27 @@ export default function Home() {
       .then(data => setList(data.list))
       .catch(err => console.error(err))
 
+  }
+
+  function handleUpdateNote(id:number,title:string){
+    fetch(`http://localhost:3001/${id}`, {
+      method:'PUT',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({title}),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error (`Error: ${response.status}`)
+          return response.json()
+      })
+      .then((data) =>{
+        setList(data.list)
+      })
+      .catch(error=>{
+        const err = error instanceof Error ? error : new Error(JSON.stringify(error))
+        console.error(err)
+      })
   }
 
   function handleAddNote() {
@@ -69,7 +90,7 @@ export default function Home() {
         <div>
           Count:{' '}
           {Array.isArray(list) && list.map((item, i) => (
-            <NoteCard key={i} count={i} id={item.id??i} title={item.title} onDelete={handleDeletenote} />
+            <NoteCard key={i} count={i} id={item.id??i} title={item.title} onDelete={handleDeletenote} onUpdate={handleUpdateNote}/>
           ))}
           <hr />
         </div>
