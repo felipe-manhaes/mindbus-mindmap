@@ -23,7 +23,6 @@ app.post('/', (req, res) => {
    console.log(title)
    for (let i = 0; i < count; i++) {
       const test = !tempNotes.some(item => item.id === count)
-      console.log(test)
       if (test) {
          break
       } else { count++ }

@@ -69,7 +69,7 @@ export default function Home() {
         <div>
           Count:{' '}
           {Array.isArray(list) && list.map((item, i) => (
-            <NoteCard key={i} id={i} title={item.title} onDelete={handleDeletenote} />
+            <NoteCard key={i} count={i} id={item.id??i} title={item.title} onDelete={handleDeletenote} />
           ))}
           <hr />
         </div>
