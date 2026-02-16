@@ -1,18 +1,79 @@
 'use client';
-import { NoteCard, NoteCardProps } from '@/components/NoteCard';
+import { NoteCard } from '@/components/NoteCard';
 import { useCounterStore } from '@/providers/counter-store-provider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 
 export default function Home() {
-  const { inputText, list, setListUpdate, setInputText } = useCounterStore(
+  const { inputText, list, setNewItem, setInputText, setList, updateNote } = useCounterStore(
     (state) => state,
   )
 
-  function handleAddNote() {
-    setListUpdate(inputText)
-    setInputText('')
+  useEffect(() => {
+    fetch('http://localhost:3001')
+      .then(res => res.json())
+      .then(json => {
+        setList(json.list)
+      })
+      .catch(err => console.error(err))
+  }, [])
+
+  function handleDeletenote(id: number) {
+    fetch(`http://localhost:3001/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Error: ${res.status}`)
+        return res.json()
+      })
+      .then(data => setList(data.list))
+      .catch(err => console.error(err))
 
   }
+
+  function handleUpdateNote(id:number,title:string){
+    fetch(`http://localhost:3001/${id}`, {
+      method:'PUT',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({title}),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error (`Error: ${response.status}`)
+          return response.json()
+      })
+      .then((data) =>{
+        setList(data.list)
+      })
+      .catch(error=>{
+        const err = error instanceof Error ? error : new Error(JSON.stringify(error))
+        console.error(err)
+      })
+  }
+
+  function handleAddNote() {
+    fetch('http://localhost:3001', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title: inputText }),
+    }).then(response => {
+      if (!response.ok) throw new Error(`Error: ${response.status}`)
+      return response.json()
+    })
+      .then(data => {
+        console.log(data)
+        setNewItem(inputText)
+        setInputText('')
+      })
+      .catch(error => {
+        const err = error instanceof Error ? error : new Error(JSON.stringify(error))
+        console.error(err)
+      });
+  }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputText(e.target.value)
   }
@@ -27,8 +88,9 @@ export default function Home() {
           <button className="border-2 border-gray-800 cursor-pointer" onClick={handleAddNote}>Add Note</button>
         </div>
         <div>
-          Count:   {list.map((item, i) => (
-            <NoteCard key={i} id={i} title={item.title} />
+          Count:{' '}
+          {Array.isArray(list) && list.map((item, i) => (
+            <NoteCard key={i} count={i} id={item.id??i} title={item.title} onDelete={handleDeletenote} onUpdate={handleUpdateNote}/>
           ))}
           <hr />
         </div>

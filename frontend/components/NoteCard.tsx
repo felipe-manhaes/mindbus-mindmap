@@ -1,18 +1,13 @@
 import { useCounterStore } from '@/providers/counter-store-provider';
 
 
-export type NoteCardProps = {
-   title: string;
-   id?: number;
-}
-
-export function NoteCard(title: { title: string, id: number }) {
-   const { deleteNote, updateNote, inputText } = useCounterStore(
+export function NoteCard(props: { title: string, count: number, id: number, onDelete: (id: number) => void,  onUpdate: (id: number, title: string) => void},) {
+   const { updateNote, inputText } = useCounterStore(
       (state) => state,
    )
 
    return (
-      <div><span onClick={() => updateNote(title.id, inputText)}>- {title.title}_0{title.id}</span> <span className="cursor-pointer"
-         onClick={() => deleteNote(title.id)}>[x]</span></div>
+      <div><span onClick={() => props.onUpdate(props.count, inputText)}>- {props.title}_0{props.count}</span> <span className="cursor-pointer"
+         onClick={() => props.onDelete(props.id)}>[x]</span></div>
    )
 }
