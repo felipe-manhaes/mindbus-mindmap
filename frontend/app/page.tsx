@@ -2,7 +2,7 @@
 import { NoteCard } from '@/components/NoteCard';
 import { useCounterStore } from '@/providers/counter-store-provider';
 import { useEffect, useState } from 'react';
-
+import { Sidebar,SidebarTrigger,SidebarProvider } from '@/components/ui/sidebar'
 
 export default function Home() {
   const { inputText, list, setNewItem, setInputText, setList, updateNote } = useCounterStore(
@@ -11,12 +11,15 @@ export default function Home() {
 
   useEffect(() => {
     fetch('http://localhost:3001')
-      .then(res => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error(`Error: ${res.status}`)
+      return res.json()
+    })
       .then(json => {
         setList(json.list)
       })
       .catch(err => console.error(err))
-  }, [])
+  }, [setList])
 
   function handleDeletenote(id: number) {
     fetch(`http://localhost:3001/${id}`, {
@@ -78,8 +81,11 @@ export default function Home() {
     setInputText(e.target.value)
   }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-4 py-10  bg-white dark:bg-gray-600 sm:items-center">
+    <SidebarProvider defaultOpen={false}>
+    <div className="flex min-h-screen w-full dark:bg-gray-600 items-center justify-center  font-sans">
+      <Sidebar />
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-4 py-10   dark:bg-gray-600 sm:items-center">
+        <SidebarTrigger />
         <h1 className="border-2 border-red-500">State Notepad</h1>
         <div className="flex flex-row items-center gap-2 justify-center">
           <input type="text" name="note" id="note" placeholder="Enter your note"
@@ -97,5 +103,7 @@ export default function Home() {
         <p className='text-amber-300'>{JSON.stringify(list)}</p>
       </main>
     </div>
+    </SidebarProvider>
+
   );
 }
