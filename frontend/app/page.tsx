@@ -3,7 +3,7 @@ import { NoteCard } from '@/components/NoteCard';
 import { useCounterStore } from '@/providers/counter-store-provider';
 import { useEffect, useState } from 'react';
 import { Sidebar,SidebarTrigger,SidebarProvider } from '@/components/ui/sidebar'
-
+import  FlowCanvas from '@/components/FlowCanvas'
 export default function Home() {
   const { inputText, list, setNewItem, setInputText, setList, updateNote } = useCounterStore(
     (state) => state,
@@ -86,6 +86,7 @@ export default function Home() {
       <Sidebar />
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-4 py-10   dark:bg-gray-600 sm:items-center">
         <SidebarTrigger />
+        <FlowCanvas />
         <h1 className="border-2 border-red-500">State Notepad</h1>
         <div className="flex flex-row items-center gap-2 justify-center">
           <input type="text" name="note" id="note" placeholder="Enter your note"
